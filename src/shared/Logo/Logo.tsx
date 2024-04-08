@@ -1,5 +1,5 @@
 import React from "react";
-import logoImg from "@/images/logo.svg";
+import logoImg from "@/images/logo.png";
 import logoLightImg from "@/images/logo-light.svg";
 import Link from "next/link";
 import Image from "next/image";
