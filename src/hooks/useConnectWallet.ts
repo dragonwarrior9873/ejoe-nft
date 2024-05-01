@@ -66,6 +66,7 @@ import { SuccessToast } from "@/components/Toast/Success";
 //   }
 // };
 const useConnectMetaMask = async (): Promise<boolean> => {
+  // @ts-ignore
   const ethereum = window.ethereum;
   if (typeof ethereum !== "undefined") {
 
