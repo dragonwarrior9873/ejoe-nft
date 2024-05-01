@@ -73,6 +73,9 @@ export default function AvatarDropdown() {
                             7
                           )}...${AccountState.account.slice(38)}`}
                         </p>
+                        <h4 className="font-semibold">
+                            {Number(AccountState?.balance).toFixed(5)} ETH
+                        </h4>
                       </div>
                     </div>
 

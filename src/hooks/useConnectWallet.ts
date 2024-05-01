@@ -68,6 +68,7 @@ import { SuccessToast } from "@/components/Toast/Success";
 const useConnectMetaMask = async (): Promise<boolean> => {
   const ethereum = window.ethereum;
   if (typeof ethereum !== "undefined") {
+
     try {
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
@@ -77,6 +78,9 @@ const useConnectMetaMask = async (): Promise<boolean> => {
       const web3 = new Web3(ethereum);
       const balanceInWei = await web3.eth.getBalance(address);
       console.log(balanceInWei);
+
+      // Getting the current network ID
+      console.log("Current network ID:", ethereum.networkVersion);
 
       const balanceInEther = web3.utils.fromWei(balanceInWei, "ether");
       const userProfile = await getUserNamePicByEthAddress(address);
@@ -94,6 +98,7 @@ const useConnectMetaMask = async (): Promise<boolean> => {
       );
       localStorage.setItem("IsNFTMetamaskConnect", "true");
       SuccessToast({ message: "Metamask is connected 🎉" });
+      SuccessToast({ message: `Balance is ${balanceInEther} ETH` });
       return true;
     } catch (error: Error | any) {
       ErrorToast({ message: "Failed to connect to MetaMask:💔" });
