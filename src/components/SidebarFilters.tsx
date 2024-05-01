@@ -69,7 +69,12 @@ const SidebarFilters = () => {
       ? setCategoriesState([...categoriesState, name])
       : setCategoriesState(categoriesState.filter((i) => i !== name));
   };
-
+  const setIsOnSaleHandler = (field: string, value: boolean) => {
+    // Here, you update the state based on the provided field and value
+    if (field === "isOnSale") {
+      setIsIsOnSale(value);
+    }
+  };
   const handleChangeColors = (checked: boolean, name: string) => {
     checked
       ? setColorsState([...colorsState, name])
@@ -246,7 +251,8 @@ const SidebarFilters = () => {
           label="On sale!"
           desc="Products currently on sale"
           enabled={isOnSale}
-          onChange={setIsIsOnSale}
+          field="sale"
+          onChange={setIsOnSaleHandler}
         />
       </div>
       {renderTabsSortOrder()}

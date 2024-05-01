@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Avatar from "@/shared/Avatar/Avatar";
 import NcImage from "@/shared/NcImage/NcImage";
 import VerifyIcon from "@/components/VerifyIcon";
@@ -8,19 +8,23 @@ import FollowButton from "@/components/FollowButton";
 import Badge from "@/shared/Badge/Badge";
 import Link from "next/link";
 import useGetRandomData from "@/hooks/useGetRandomData";
+import { web3 } from "@/hooks/useContract";
 
 export interface CardAuthorBox4Props {
+  item: any;
   className?: string;
   following?: boolean;
   authorIndex?: number;
 }
 
 const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
+  item,
   className = "",
   following,
   authorIndex,
 }) => {
   const { personNameRd, nftsAbstractRd } = useGetRandomData();
+
   return (
     <div
       className={`nc-CardAuthorBox4 relative flex flex-col overflow-hidden group border border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-800 group rounded-3xl hover:shadow-xl transition-shadow ${className}`}
@@ -64,6 +68,15 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
 
             <div className="absolute -top-7 left-1/2 -translate-x-1/2">
               <Avatar
+                imgUrl={
+                  item?.userProfile
+                    ? `${
+                        process.env.NEXT_PUBLIC_BACKEND_BASE_URL
+                      }/api/images?imageName=${encodeURIComponent(
+                        item.userProfile
+                      )}`
+                    : "/user-demo-avatar.svg"
+                }
                 containerClassName=""
                 sizeClass="w-12 h-12 text-2xl"
                 radius="rounded-full"
@@ -74,11 +87,19 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
         <div className="mt-2.5 flex items-center justify-between">
           <div>
             <h2 className={`text-base font-medium flex items-center`}>
-              <span className="">{personNameRd}</span>
+              <span className="">
+                {" "}
+                {item?.userName
+                  ? item?.userName
+                  : `${item?.userEthAddress.slice(
+                      0,
+                      7
+                    )}...${item?.userEthAddress.slice(38)}`}
+              </span>
               <VerifyIcon />
             </h2>
             <span className={`block mt-0.5 text-sm `}>
-              <span className="font-medium">12.321</span>
+              <span className="font-medium">1.454</span>
               <span className={`ml-1.5 text-neutral-500 dark:text-neutral-400`}>
                 ETH
               </span>
@@ -91,7 +112,10 @@ const CardAuthorBox4: FC<CardAuthorBox4Props> = ({
         </div>
       </div>
 
-      <Link href={"/author"} className="absolute inset-0"></Link>
+      <Link
+        href={`/author/${item?.userEthAddress}`}
+        className="absolute inset-0"
+      ></Link>
     </div>
   );
 };

@@ -35,10 +35,13 @@ const SectionBecomeAnAuthor: FC<SectionBecomeAnAuthorProps> = ({
         </div>
       </div>
       <div className="flex-grow">
-        <NcImage containerClassName="block dark:hidden" src={rightImgDemo} />
+        <NcImage
+          containerClassName="block dark:hidden"
+          src={"/images/rightLargeImg.png"}
+        />
         <NcImage
           containerClassName="hidden dark:block"
-          src={rightLargeImgDark}
+          src={"/images/rightLargeImgDark.png"}
         />
       </div>
     </div>

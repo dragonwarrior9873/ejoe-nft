@@ -1,10 +1,11 @@
 "use client";
 
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Heading from "@/components/Heading/Heading";
 import CardCategory5 from "@/components/CardCategory5/CardCategory5";
 import { nftsCatImgs } from "@/contains/fakeData";
 import MySlider from "../MySlider";
+import { countNFTsByCategory } from "../../hooks/useCount";
 
 export interface SectionSliderCategoriesProps {
   className?: string;
@@ -27,6 +28,16 @@ const SectionSliderCategories: FC<SectionSliderCategoriesProps> = ({
   subHeading = "Explore the NFTs in the most featured categories.",
   className = "",
 }) => {
+  const [countCat, setCountCat] = useState<any>([]);
+  const getCategoryCount = async () => {
+    const result = await countNFTsByCategory(ntfsCatNames);
+    console.log(result);
+    setCountCat(result);
+  };
+  useEffect(() => {
+    getCategoryCount();
+  }, []);
+
   return (
     <div className={`nc-SectionSliderCategories ${className}`}>
       <MySlider
@@ -51,7 +62,7 @@ const SectionSliderCategories: FC<SectionSliderCategoriesProps> = ({
             </Heading>
           );
         }}
-        data={[1, 1, 1, 1, 1, 1]}
+        data={ntfsCatNames}
         renderItem={(_, index) => {
           return (
             <CardCategory5
@@ -59,6 +70,7 @@ const SectionSliderCategories: FC<SectionSliderCategoriesProps> = ({
               index={index}
               featuredImage={nftsCatImgs[index]}
               name={`${ntfsCatNames[index]}`}
+              count={Number(countCat[index])}
             />
           );
         }}

@@ -47,7 +47,7 @@ const PageCollection = () => {
         <div className="relative w-full h-40 md:h-60 2xl:h-72">
           <NcImage
             containerClassName="absolute inset-0"
-            src={collectionBanner}
+            src={"/images/nfts/collectionBanner.png"}
             className="object-cover"
             fill
             sizes="100vw"

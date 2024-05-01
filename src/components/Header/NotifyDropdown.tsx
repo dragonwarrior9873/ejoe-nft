@@ -1,8 +1,12 @@
 "use client";
 
 import { Popover, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Avatar from "@/shared/Avatar/Avatar";
+import { getNotification, seenNotification } from "@/apis/notification.apis";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
+import moment from "moment";
 
 const solutions = [
   {
@@ -26,6 +30,30 @@ const solutions = [
 ];
 
 export default function NotifyDropdown() {
+  const EthAccount = useSelector((state: RootState) => state.user);
+  const [notificationData, setNotificationData] = useState(null);
+  const seenOneNotification = async (id: string) => {
+    try {
+      const result = await seenNotification(id);
+      getNotificationData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getNotificationData = async () => {
+    try {
+      const result = await getNotification(EthAccount?.userId);
+      setNotificationData(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (EthAccount?.userId && EthAccount?.isConnect) {
+      getNotificationData();
+    }
+  }, [EthAccount]);
+
   return (
     <div className="relative flex">
       <Popover className="self-center">
@@ -74,27 +102,57 @@ export default function NotifyDropdown() {
                 <div className="overflow-hidden rounded-2xl shadow-lg ring-1 ring-black ring-opacity-5">
                   <div className="relative grid gap-8 bg-white dark:bg-neutral-800 p-7">
                     <h3 className="text-xl font-semibold">Notifications</h3>
-                    {solutions.map((item, index) => (
-                      <a
-                        key={index}
-                        href={item.href}
-                        className="flex p-2 pr-8 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50 relative"
-                      >
-                        <Avatar sizeClass="w-8 h-8 sm:w-12 sm:h-12" />
-                        <div className="ml-3 sm:ml-4 space-y-1">
-                          <p className="text-sm font-medium text-gray-900 dark:text-gray-200">
-                            {item.name}
-                          </p>
-                          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                            {item.description}
-                          </p>
-                          <p className="text-xs text-gray-400 dark:text-gray-400">
-                            {item.time}
-                          </p>
+                    {notificationData?.length > 0 &&
+                      notificationData?.map((item: any, index: number) => (
+                        <div
+                          key={index}
+                          onClick={() => seenOneNotification(item?._id)}
+                        >
+                          <a
+                            href={item.href}
+                            className="flex p-2 pr-8 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50 relative"
+                          >
+                            <Avatar
+                              imgUrl={
+                                item?.sender?.userProfile
+                                  ? `${
+                                      process.env.NEXT_PUBLIC_BACKEND_BASE_URL
+                                    }api/images?imageName=${encodeURIComponent(
+                                      item?.sender?.userProfile
+                                    )}`
+                                  : "/user-demo-avatar.svg"
+                              }
+                              sizeClass="w-8 h-8 sm:w-12 sm:h-12"
+                            />
+                            <div className="ml-3 sm:ml-4 space-y-1">
+                              <p className="text-sm font-medium text-gray-900 dark:text-gray-200">
+                                {item?.sender?.userName
+                                  ? item?.sender?.userName
+                                  : `${item?.sender?.userEthAddress.slice(
+                                      0,
+                                      7
+                                    )}...${item?.sender?.userEthAddress.slice(
+                                      38
+                                    )}`}
+                              </p>
+                              <p
+                                className="text-xs sm:text-sm text-gray-500 dark:text-gray-400"
+                                dangerouslySetInnerHTML={{
+                                  __html: item?.description,
+                                }}
+                              ></p>
+
+                              <p className="text-xs text-gray-400 dark:text-gray-400">
+                                {moment(item?.createdAt).fromNow()}
+                                {item.time}
+                              </p>
+                            </div>
+                            {!item?.seen && (
+                              <span className="absolute right-1 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full bg-blue-500"></span>
+                            )}
+                          </a>
                         </div>
-                        <span className="absolute right-1 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full bg-blue-500"></span>
-                      </a>
-                    ))}
+                      ))}
                   </div>
                 </div>
               </Popover.Panel>

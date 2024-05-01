@@ -45,7 +45,7 @@ const CardLarge1: FC<CardLarge1Props> = ({
         <div className="nc-CardLarge1__left p-4 sm:p-8 xl:py-14 md:px-10 bg-white dark:bg-neutral-900 shadow-lg rounded-3xl space-y-3 sm:space-y-8 ">
           {/* TITLE */}
           <h2 className="text-2xl lg:text-3xl 2xl:text-5xl font-semibold ">
-            <Link href={"/nft-detail"} title="Walking On Air">
+            <Link href={"/nft-detail/1"} title="Walking On Air">
               {randomTitle[0]}
             </Link>
           </h2>
@@ -96,14 +96,14 @@ const CardLarge1: FC<CardLarge1Props> = ({
           <div className="w h-[1px] bg-neutral-100 dark:bg-neutral-700"></div>
 
           {/* DESCRIPTION */}
-          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
-            <ButtonPrimary href={"/nft-detail"} className="flex-1">
+          {/* <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+            <ButtonPrimary href={"/nft-detail/1"} className="flex-1">
               Place a bid
             </ButtonPrimary>
-            <ButtonSecondary href={"/nft-detail"} className="flex-1">
+            <ButtonSecondary href={"/nft-detail/1"} className="flex-1">
               View item
             </ButtonSecondary>
-          </div>
+          </div> */}
         </div>
         <div className="p-4 sm:pt-8 sm:px-10 ">
           <NextPrev
@@ -116,7 +116,7 @@ const CardLarge1: FC<CardLarge1Props> = ({
 
       <div className="w-full lg:w-[64%] relative ">
         <div className="nc-CardLarge1__right ">
-          <Link href={"/nft-detail"}>
+          <Link href={"/nft-detail/2"}>
             <NcImage
               containerClassName="aspect-w-1 aspect-h-1 relative"
               className="absolute inset-0 object-cover rounded-3xl sm:rounded-[40px] border-4 sm:border-[14px] border-white dark:border-neutral-800"

@@ -10,35 +10,35 @@ import Image from "next/image";
 
 export interface SectionHowItWorkProps {
   className?: string;
-  data?: typeof DEMO_DATA[0][];
+  data?: (typeof DEMO_DATA)[0][];
 }
 
 const DEMO_DATA = [
   {
     id: 1,
-    img: HIW1img,
-    imgDark: HIW1img,
+    img: "/images/HIW1img.png",
+    imgDark: "/images/HIW1img.png",
     title: "Filter & Discover",
     desc: "Smart filtering and suggestions make it easy to find",
   },
   {
     id: 2,
-    img: HIW2img,
-    imgDark: HIW2img,
+    img: "/images/HIW2img.png",
+    imgDark: "/images/HIW2img.png",
     title: "Add to bag",
     desc: "Easily select the correct items and add them to the cart",
   },
   {
     id: 3,
-    img: HIW3img,
-    imgDark: HIW3img,
+    img: "/images/HIW3img.png",
+    imgDark: "/images/HIW3img.png",
     title: "Fast shipping",
     desc: "The carrier will confirm and ship quickly to you",
   },
   {
     id: 4,
-    img: HIW4img,
-    imgDark: HIW4img,
+    img: "/images/HIW4img.png",
+    imgDark: "/images/HIW4img.png",
     title: "Enjoy the product",
     desc: "Have fun and enjoy your 5-star quality products",
   },
@@ -56,7 +56,7 @@ const SectionHowItWork: FC<SectionHowItWorkProps> = ({
           src={VectorImg}
           alt="vector"
         />
-        {data.map((item: typeof DEMO_DATA[number], index: number) => (
+        {data.map((item: (typeof DEMO_DATA)[number], index: number) => (
           <div
             key={item.id}
             className="relative flex flex-col items-center max-w-xs mx-auto"

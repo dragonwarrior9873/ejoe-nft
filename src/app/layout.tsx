@@ -5,7 +5,8 @@ import "rc-slider/assets/index.css";
 import Footer from "@/shared/Footer/Footer";
 import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
 import SiteHeader from "@/app/SiteHeader";
-
+import { Providers } from "./Provider";
+import { Toaster } from "react-hot-toast";
 const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
@@ -13,8 +14,8 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "Ejoe NFT Marketplace",
-  description: "Buy/Sell NFT on Ejoe NFT Marketplace",
+  title: "Cicryp.",
+  description: "Buy/Sell NFT on Cicryp. NFT Marketplace",
 };
 
 export default function RootLayout({
@@ -23,13 +24,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={poppins.className}>
-      <body className="bg-white text-base dark:bg-neutral-900 text-neutral-900 dark:text-neutral-200">
-        <SiteHeader />
-        {children}
-        <Footer />
-        <MusicPlayer />
-      </body>
-    </html>
+    <Providers>
+      <html lang="en" className={poppins.className}>
+        <body className="bg-white text-base dark:bg-neutral-900 text-neutral-900 dark:text-neutral-200">
+          <Toaster position="bottom-left" />
+
+          <SiteHeader />
+          {children}
+          <Footer />
+          <MusicPlayer />
+        </body>
+      </html>
+    </Providers>
   );
 }

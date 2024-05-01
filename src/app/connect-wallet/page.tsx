@@ -14,19 +14,19 @@ import fortmaticImg from "@/images/fortmatic.webp";
 const plans = [
   {
     name: "Metamask",
-    img: metamaskImg,
+    img: "/images/metamask.webp",
   },
   {
     name: "Walletconnect",
-    img: walletconnectImg,
+    img: "/images/walletconnect.webp",
   },
   {
     name: "Walletlink",
-    img: walletlinkImg,
+    img: "/images/walletlink.webp",
   },
   {
     name: "Fortmatic",
-    img: fortmaticImg,
+    img: "/images/fortmatic.webp",
   },
 ];
 const PageConnectWallet = ({}) => {
@@ -43,7 +43,7 @@ const PageConnectWallet = ({}) => {
         </span>
 
         <div className="p-5 border bg-white dark:bg-neutral-300 border-neutral-200 dark:border-neutral-700 rounded-xl flex items-center justify-center mt-4">
-          <NcImage className="w-40" src={QrCodeImg} />
+          <NcImage className="w-40" src={"/qr-code.png"} />
         </div>
 
         <div className="mt-5 space-x-3">

@@ -35,7 +35,7 @@ const SectionSubscribe2: FC<SectionSubscribe2Props> = ({ className = "" }) => {
             </span>
           </li>
         </ul>
-        <form className="mt-10 relative max-w-sm">
+        <div className="mt-10 relative max-w-sm">
           <Input
             required
             aria-required
@@ -44,15 +44,15 @@ const SectionSubscribe2: FC<SectionSubscribe2Props> = ({ className = "" }) => {
             rounded="rounded-full"
           />
           <ButtonCircle
-            type="submit"
+            // type="submit"
             className="absolute transform top-1/2 -translate-y-1/2 right-1"
           >
             <ArrowSmallRightIcon className="w-5 h-5" />
           </ButtonCircle>
-        </form>
+        </div>
       </div>
       <div className="flex-grow">
-        <NcImage src={rightImg} />
+        <NcImage src={"/images/SVG-subcribe2.png"} />
       </div>
     </div>
   );

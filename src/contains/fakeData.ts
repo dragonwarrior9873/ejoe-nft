@@ -37,12 +37,12 @@ import nftsCat5 from "@/images/nfts/cat5.png";
 import nftsCat6 from "@/images/nfts/cat6.png";
 
 export const nftsCatImgs = [
-  nftsCat1,
-  nftsCat3,
-  nftsCat4,
-  nftsCat6,
-  nftsCat2,
-  nftsCat5,
+  "/images/nfts/cat1.png",
+  "/images/nfts/cat2.png",
+  "/images/nfts/cat3.png",
+  "/images/nfts/cat4.png",
+  "/images/nfts/cat5.png",
+  "/images/nfts/cat6.png",
 ];
 export const nftsLargeImgs = [nftsLarge1, nftsLarge2, nftsLarge3];
 export const nftsImgs = [

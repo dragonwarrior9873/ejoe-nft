@@ -19,8 +19,9 @@ export interface SectionVideosProps {
 
 const VIDEOS_DEMO: VideoType[] = [
   {
-    id: "nOQyWbPO2Ds",
-    title: "Magical Scotland - 4K Scenic Relaxation Film with Calming Music",
+    id: "NNQLJcJEzv0",
+    title:
+      "NFT Explained In 5 Minutes | What Is NFT? - Non Fungible Token | NFT Crypto Explained",
     thumbnail: "https://images.unsplash.com/photo-1618172193622-ae2d025f4032",
   },
 ];

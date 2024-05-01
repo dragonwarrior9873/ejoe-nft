@@ -113,7 +113,7 @@ const CardNFTMusic: FC<CardNFTMusicProps> = ({
       </div>
 
       {/* ----TIME--- */}
-      <RemainingTimeNftCard />
+      <RemainingTimeNftCard endTime="99898989" />
 
       {/* MAIN CONTENT */}
       <div className="w-11/12 max-w-[360px] transform -mt-32 relative z-10">
@@ -130,7 +130,7 @@ const CardNFTMusic: FC<CardNFTMusicProps> = ({
         </div>
 
         <Link
-          href={"/nft-detail"}
+          href={`/nft-detail/0`}
           className="block p-5 mt-5 bg-white dark:bg-neutral-800 shadow-xl dark:shadow-2xl rounded-3xl rounded-tl-none"
         >
           <div className="flex items-center justify-between">
@@ -150,7 +150,7 @@ const CardNFTMusic: FC<CardNFTMusicProps> = ({
         </Link>
       </div>
 
-      <Link href={"/nft-detail"} className="absolute inset-0 "></Link>
+      <Link href={`/nft-detail/1`} className="absolute inset-0 "></Link>
     </div>
   );
 };

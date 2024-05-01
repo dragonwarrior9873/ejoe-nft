@@ -15,16 +15,28 @@ const NcImage: FC<NcImageProps> = ({
   sizes = "(max-width: 600px) 480px, 800px",
   ...args
 }) => {
+  console.log(src);
+
   return (
     <div className={containerClassName}>
-      {src ? (
-        <Image
+      {/* <Image
+      crossOrigin="anonymous"
           className={className}
           alt={alt}
           sizes={sizes}
           {...args}
           src={src}
           fill={fill}
+        /> */}
+      {src ? (
+        <img
+          crossOrigin="anonymous"
+          className={className}
+          alt={alt}
+          sizes={sizes}
+          {...args}
+          src={src as string}
+          // fill={fill}
         />
       ) : null}
     </div>

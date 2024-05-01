@@ -17,7 +17,7 @@ const CardAuthorBox2: FC<CardAuthorBox2Props> = ({ className = "" }) => {
 
   return (
     <Link
-      href={"/author"}
+      href={"/author/2"}
       className={`nc-CardAuthorBox2 flex flex-col overflow-hidden [ nc-box-has-hover nc-dark-box-bg-has-hover ] ${className}`}
     >
       <div className="relative flex-shrink-0 ">

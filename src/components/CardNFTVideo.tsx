@@ -59,7 +59,7 @@ const CardNFTVideo: FC<CardNFTVideoProps> = ({
       </div>
 
       <div className="p-5 relative">
-        <Link href={"/nft-detail"} className="absolute inset-0"></Link>
+        <Link href={"/nft-detail/1"} className="absolute inset-0"></Link>
         <div className="flex justify-between items-center">
           <h2 className={`sm:text-lg font-semibold hover:text-primary-6000`}>
             NFT Video #{Math.floor(Math.random() * 1000) + 1000}

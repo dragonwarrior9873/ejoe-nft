@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import CardNFT from "@/components/CardNFT";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";

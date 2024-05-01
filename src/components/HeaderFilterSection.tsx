@@ -8,17 +8,28 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import TabFilters from "@/components/TabFilters";
 import { Transition } from "@/app/headlessui";
-
+import { useDispatch } from "react-redux";
+import { applyChanges } from "@/lib/features/NftSlice";
 export interface HeaderFilterSectionProps {
   className?: string;
+  tabActive?: string;
+  setTabActive?: (tab: string) => void;
 }
 
 const HeaderFilterSection: FC<HeaderFilterSectionProps> = ({
   className = "mb-12",
+  setTabActive,
+  tabActive,
 }) => {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(true);
-  const [tabActive, setTabActive] = useState("All NFTs");
-
+  // const [tabActive, setTabActive] = useState("All NFTs");
+  const handleTabClick = (item: string) => {
+    if (setTabActive) {
+      dispatch(applyChanges());
+      setTabActive(item);
+    }
+  };
   return (
     <div className={`flex flex-col relative ${className}`}>
       <Heading>{`What's trending now`}</Heading>
@@ -27,17 +38,23 @@ const HeaderFilterSection: FC<HeaderFilterSectionProps> = ({
           className="sm:space-x-2"
           containerClassName="relative flex w-full overflow-x-auto text-sm md:text-base hiddenScrollbar"
         >
-          {["All NFTs", "Arts", "Music", "Sports", "Jewels"].map(
-            (item, index) => (
-              <NavItem
-                key={index}
-                isActive={tabActive === item}
-                onClick={() => setTabActive(item)}
-              >
-                {item}
-              </NavItem>
-            )
-          )}
+          {[
+            "All NFTs",
+            "Arts",
+            "Entertainment",
+            "Music",
+            "News",
+            "Sports",
+            "Science",
+          ].map((item, index) => (
+            <NavItem
+              key={index}
+              isActive={tabActive === item}
+              onClick={() => handleTabClick(item)}
+            >
+              {item}
+            </NavItem>
+          ))}
         </Nav>
         <span className="block flex-shrink-0">
           <ButtonPrimary

@@ -1,11 +1,49 @@
 "use client";
 
 import useCountDownTime from "@/hooks/useCountDownTime";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-const TimeCountDown = () => {
+const TimeCountDown = ({ endTime }) => {
   const timeLeft = useCountDownTime();
+  const [countDownTime, setCountDownTime] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
 
+  const intervalRef = useRef(null);
+
+  const getTimeDifference = (endTime) => {
+    const currentTime = new Date().getTime();
+    const timeDifference = endTime - currentTime;
+    if (timeDifference <= 0) {
+      clearInterval(intervalRef.current);
+      setCountDownTime({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+      });
+    } else {
+      const days = Math.floor(timeDifference / (24 * 60 * 60 * 1000));
+      const hours = Math.floor(
+        (timeDifference % (24 * 60 * 60 * 1000)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor(
+        (timeDifference % (60 * 60 * 1000)) / (1000 * 60)
+      );
+      const seconds = Math.floor((timeDifference % (60 * 1000)) / 1000);
+      setCountDownTime({ days, hours, minutes, seconds });
+    }
+  };
+
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      getTimeDifference(endTime);
+    }, 1000);
+    return () => clearInterval(intervalRef.current);
+  }, [endTime]);
   return (
     <div className="space-y-5">
       <div className="text-neutral-500 dark:text-neutral-400 flex items-center space-x-2 ">
@@ -44,7 +82,7 @@ const TimeCountDown = () => {
       <div className="flex space-x-5 sm:space-x-10">
         <div className="flex flex-col ">
           <span className="text-2xl sm:text-2xl font-semibold">
-            {timeLeft.days}
+            {countDownTime.days}
           </span>
           <span className="sm:text-lg text-neutral-500 dark:text-neutral-400">
             Days
@@ -52,7 +90,7 @@ const TimeCountDown = () => {
         </div>
         <div className="flex flex-col ">
           <span className="text-2xl sm:text-2xl font-semibold">
-            {timeLeft.hours}
+            {countDownTime.hours}
           </span>
           <span className="sm:text-lg text-neutral-500 dark:text-neutral-400">
             hours
@@ -60,7 +98,7 @@ const TimeCountDown = () => {
         </div>
         <div className="flex flex-col ">
           <span className="text-2xl sm:text-2xl font-semibold">
-            {timeLeft.minutes}
+            {countDownTime.minutes}
           </span>
           <span className="sm:text-lg text-neutral-500 dark:text-neutral-400">
             minutes
@@ -68,7 +106,7 @@ const TimeCountDown = () => {
         </div>
         <div className="flex flex-col ">
           <span className="text-2xl sm:text-2xl font-semibold">
-            {timeLeft.seconds}
+            {countDownTime.seconds}
           </span>
           <span className="sm:text-lg text-neutral-500">seconds</span>
         </div>

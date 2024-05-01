@@ -1,12 +1,16 @@
 "use client";
 
 import { Popover, Transition } from "@headlessui/react";
-import { avatarImgs } from "@/contains/fakeData";
 import { Fragment } from "react";
 import Avatar from "@/shared/Avatar/Avatar";
 import Link from "next/link";
+import { RootState } from "@/lib/store";
+import { useDispatch, useSelector } from "react-redux";
+import { disconnect } from "@/lib/features/userSlice";
 
 export default function AvatarDropdown() {
+  const AccountState = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
   return (
     <div className="AvatarDropdown relative flex">
       <Popover className="self-center">
@@ -16,7 +20,17 @@ export default function AvatarDropdown() {
               className={`inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
             >
               <Avatar
-                imgUrl={avatarImgs[7]}
+                imgUrl={
+                  AccountState.userAvatar !== ""
+                    ? typeof AccountState.userAvatar === "string"
+                      ? `${
+                          process.env.NEXT_PUBLIC_BACKEND_BASE_URL
+                        }/api/images?imageName=${encodeURIComponent(
+                          AccountState.userAvatar
+                        )}`
+                      : ""
+                    : "/user-demo-avatar.svg"
+                }
                 sizeClass="w-8 h-8 sm:w-9 sm:h-9"
               />
             </Popover.Button>
@@ -33,11 +47,32 @@ export default function AvatarDropdown() {
                 <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-black ring-opacity-5">
                   <div className="relative grid grid-cols-1 gap-6 bg-white dark:bg-neutral-800 py-7 px-6">
                     <div className="flex items-center space-x-3">
-                      <Avatar imgUrl={avatarImgs[7]} sizeClass="w-12 h-12" />
+                      <Avatar
+                        imgUrl={
+                          AccountState.userAvatar !== ""
+                            ? typeof AccountState.userAvatar === "string"
+                              ? `${
+                                  process.env.NEXT_PUBLIC_BACKEND_BASE_URL
+                                }/api/images?imageName=${encodeURIComponent(
+                                  AccountState.userAvatar
+                                )}`
+                              : ""
+                            : "/user-demo-avatar.svg"
+                        }
+                        sizeClass="w-12 h-12"
+                      />
 
                       <div className="flex-grow">
-                        <h4 className="font-semibold">Eden Tuan</h4>
-                        <p className="text-xs mt-0.5">0xc4c16ab5ac7d...b21a</p>
+                        <h4 className="font-semibold">
+                          {AccountState?.userName}
+                        </h4>
+                        <p className="text-xs mt-0.5">
+                          {/* 0xc4c16ab5ac7d...b21a */}
+                          {`${AccountState?.account.slice(
+                            0,
+                            7
+                          )}...${AccountState.account.slice(38)}`}
+                        </p>
                       </div>
                     </div>
 
@@ -45,7 +80,7 @@ export default function AvatarDropdown() {
 
                     {/* ------------------ 1 --------------------- */}
                     <Link
-                      href={"/author"}
+                      href={`/author/${AccountState?.account}`}
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                     >
                       <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
@@ -78,8 +113,8 @@ export default function AvatarDropdown() {
                     </Link>
 
                     {/* ------------------ 2 --------------------- */}
-                    <Link
-                      href={"/nft-detail"}
+                    {/* <Link
+                      href={"/nft-detail/2"}
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                     >
                       <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
@@ -116,7 +151,7 @@ export default function AvatarDropdown() {
                       <div className="ml-4">
                         <p className="text-sm font-medium ">{"My Items"}</p>
                       </div>
-                    </Link>
+                    </Link> */}
 
                     {/* ------------------ 2 --------------------- */}
                     <Link
@@ -170,7 +205,7 @@ export default function AvatarDropdown() {
 
                     <div className="w-full border-b border-neutral-200 dark:border-neutral-700" />
                     {/* ------------------ 2 --------------------- */}
-                    <Link
+                    {/* <Link
                       href={"/upload-item"}
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                     >
@@ -229,12 +264,13 @@ export default function AvatarDropdown() {
                       <div className="ml-4">
                         <p className="text-sm font-medium ">{"Help"}</p>
                       </div>
-                    </Link>
+                    </Link> */}
 
                     {/* ------------------ 2 --------------------- */}
-                    <Link
-                      href={"/"}
-                      className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                    <div
+                      onClick={() => dispatch(disconnect())}
+                      // href={"/"}
+                      className="cursor-pointer flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                     >
                       <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
                         <svg
@@ -270,7 +306,7 @@ export default function AvatarDropdown() {
                       <div className="ml-4">
                         <p className="text-sm font-medium ">{"Disconnect"}</p>
                       </div>
-                    </Link>
+                    </div>
                   </div>
                 </div>
               </Popover.Panel>

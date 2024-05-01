@@ -9,6 +9,7 @@ export interface CardCategory5Props {
   featuredImage?: string | StaticImageData;
   name: string;
   index: number;
+  count: number;
 }
 
 const COLORS = [
@@ -26,13 +27,14 @@ const COLORS = [
 
 const CardCategory5: FC<CardCategory5Props> = ({
   className = "",
-  featuredImage = images1,
+  featuredImage = "/images/nfts/cat1.webp",
   name,
   index,
+  count,
 }) => {
   return (
     <Link
-      href={"/collection"}
+      href={`/search?cat=${name}`}
       className={`nc-CardCategory5 flex flex-col ${className}`}
     >
       <div
@@ -57,7 +59,7 @@ const CardCategory5: FC<CardCategory5Props> = ({
           <span
             className={`block mt-1 text-sm text-neutral-6000 dark:text-neutral-400`}
           >
-            1255 NFTs
+            {count} NFTs
           </span>
         </div>
       </div>

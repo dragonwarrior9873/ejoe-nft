@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import CardAuthorBox from "@/components/CardAuthorBox/CardAuthorBox";
 import CardAuthorBox2 from "@/components/CardAuthorBox2/CardAuthorBox2";
 import CardAuthorBox3 from "@/components/CardAuthorBox3/CardAuthorBox3";
@@ -11,6 +11,15 @@ import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import Nav from "@/shared/Nav/Nav";
 import SortOrderFilter from "./SortOrderFilter";
+import { ErrorToast } from "../Toast/Error";
+import { getTopCreators } from "@/apis/profile.apis";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
+import Loader from "@/shared/Loader/Loader";
+import Link from "next/link";
+import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
+import CardNFTVideo from "../CardNFTVideo";
+import MySlider from "../MySlider";
 
 export interface SectionGridAuthorBoxProps {
   className?: string;
@@ -27,28 +36,23 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
   gridClassName = "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
   data = Array.from("11111111"),
 }) => {
+  const EthAccount = useSelector((state: RootState) => state.user);
   const [tabActive, setTabActive] = useState("Popular");
+  const [startIndex, setStartIndex] = useState(0);
+  const [creators, setCreators] = useState(null);
+  console.log(creators);
+  const [loading, setLoading] = useState(false);
 
-  const renderCard = (index: number) => {
+  const renderCard = (item: any, index: number) => {
     switch (boxCard) {
       case "box1":
-        return (
-          <CardAuthorBox
-            index={index < 3 ? index + 1 : undefined}
-            key={index}
-          />
-        );
+        return <CardAuthorBox item={item} index={index} key={index} />;
       case "box2":
         return <CardAuthorBox2 key={index} />;
       case "box3":
         return <CardAuthorBox3 key={index} />;
       case "box4":
-        return (
-          <CardAuthorBox4
-            authorIndex={index < 3 ? index + 1 : undefined}
-            key={index}
-          />
-        );
+        return <CardAuthorBox4 item={item} authorIndex={index} key={index} />;
 
       default:
         return null;
@@ -92,7 +96,7 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
         >
           Top List Creators.
         </Heading>
-        <Nav
+        {/* <Nav
           className="p-1 bg-white dark:bg-neutral-800 rounded-full shadow-lg"
           containerClassName="mb-12 lg:mb-14 relative flex justify-center w-full text-sm md:text-base"
         >
@@ -141,23 +145,154 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
               </div>
             </NavItem2>
           ))}
-        </Nav>
+        </Nav> */}
       </div>
     );
   };
+  const getData = async () => {
+    try {
+      setLoading(true);
+      const response = await getTopCreators(
+        8,
+        startIndex,
+        tabActive,
+        EthAccount?.account
+      );
 
+      console.log(response);
+      setCreators(response);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      // ErrorToast({ message: "Failed to fetch creators!!" });
+    }
+  };
+  useEffect(() => {
+    if (EthAccount?.account && EthAccount?.isConnect) {
+      getData();
+    }
+  }, [EthAccount]);
   return (
     <div className={`nc-SectionGridAuthorBox relative ${className}`}>
-      {sectionStyle === "style1" ? renderHeading1() : renderHeading2()}
-      <div className={`grid gap-4 md:gap-7 ${gridClassName}`}>
-        {data.map((_, index) => renderCard(index))}
-      </div>
-      <div className="mt-16 flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-5">
-        <ButtonSecondary>Show me more </ButtonSecondary>
-        <ButtonPrimary>Become a author</ButtonPrimary>
+      <div>
+        <MySlider
+          itemPerRow={4}
+          hideNextPrev
+          renderSectionHeading={({
+            onClickPrev,
+            onClickNext,
+            showNext,
+            showPrev,
+          }) => {
+            return (
+              <Heading
+                hasNextPrev
+                onClickPrev={onClickPrev}
+                onClickNext={onClickNext}
+                disableNext={!showNext}
+                disablePrev={!showPrev}
+              >
+                Top List Creators.
+              </Heading>
+            );
+          }}
+          data={creators ? creators : []}
+          renderItem={(item, index) => {
+            if (!item) {
+              return (
+                <div className="flex w-full items-center justify-center">
+                  <span>No creator found!!</span>
+                </div>
+              );
+            }
+            if (loading) {
+              return (
+                <div className="w-full mt-20 flex items-center justify-center">
+                  <Loader className="w-6 h-6" />
+                </div>
+              );
+            }
+            return renderCard(item, index); // Render the card directly
+          }}
+        />
       </div>
     </div>
   );
+
+  // return (
+  //   <div className={`nc-SectionGridAuthorBox relative ${className}`}>
+  //     <div>
+  //       <MySlider
+  //         itemPerRow={4}
+  //         hideNextPrev
+  //         renderSectionHeading={({
+  //           onClickPrev,
+  //           onClickNext,
+  //           showNext,
+  //           showPrev,
+  //         }) => {
+  //           return (
+  //             <Heading
+  //               hasNextPrev
+  //               // desc="Click on play icon and enjoy NTFs video"
+  //               onClickPrev={onClickPrev}
+  //               onClickNext={onClickNext}
+  //               disableNext={!showNext}
+  //               disablePrev={!showPrev}
+  //             >
+  //               Top List Creators.
+  //             </Heading>
+  //           );
+  //         }}
+  //         data={creators ? creators : []}
+  //         renderItem={(item, index) => {
+  //           if (!item) {
+  //             return (
+  //               <div className="flex w-full items-center justify-center">
+  //                 <span>No creator found!!</span>
+  //               </div>
+  //             );
+  //           }
+  //           if (loading) {
+  //             return (
+  //               <div className="w-full mt-20 flex items-center justify-center">
+  //                 <Loader className="w-6 h-6" />
+  //               </div>
+  //             );
+  //           }
+  //           return (
+  //             <>
+  //               <div className={`w-full ${gridClassName}`}>
+  //                 {creators?.map((item: any, index: number) =>
+  //                   renderCard(item, index)
+  //                 )}
+  //               </div>
+  //             </>
+  //           );
+  //         }}
+  //       />
+  //     </div>
+
+  //     {/* {sectionStyle === "style1" ? renderHeading1() : renderHeading2()} */}
+  //     {/* {loading ? (
+  //       <div className="w-full mt-20 flex items-center justify-center">
+  //         <Loader className="w-6 h-6" />
+  //       </div>
+  //     ) : (
+  //       <>
+  //         <div className={`grid gap-4 md:gap-7 ${gridClassName}`}>
+  //           {creators?.map((item: any, index: number) =>
+  //             renderCard(item, index)
+  //           )}
+  //         </div>
+  //         <div className="mt-16 flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-5">
+  //           <ButtonPrimary href="/upload-item">Become a author</ButtonPrimary>
+  //         </div>
+  //       </>
+  //     )} */}
+  //   </div>
+  // );
 };
 
 export default SectionGridAuthorBox;

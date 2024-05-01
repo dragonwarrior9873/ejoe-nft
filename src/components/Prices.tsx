@@ -11,7 +11,7 @@ export interface PricesProps {
 }
 
 const Prices: FC<PricesProps> = ({
-  className = "pt-3",
+  className = "pt-3 w-1/2",
   price = "1.000 ETH",
   contentClass = "py-1.5 md:py-2 px-2.5 md:px-3.5 text-sm sm:text-base font-semibold",
   labelTextClassName = "bg-white",

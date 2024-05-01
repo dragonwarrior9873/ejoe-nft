@@ -9,6 +9,13 @@ import Checkbox from "@/shared/Checkbox/Checkbox";
 import Slider from "rc-slider";
 import Radio from "@/shared/Radio/Radio";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  applyChanges,
+  setRangePrices,
+  setSaleTypes,
+} from "@/lib/features/NftSlice";
+import { RootState } from "@/lib/store";
 
 // DEMO DATA
 const typeOfSales = [
@@ -18,12 +25,12 @@ const typeOfSales = [
   {
     name: "On Auction",
   },
-  {
-    name: "New",
-  },
-  {
-    name: "Has Offers",
-  },
+  // {
+  //   name: "New",
+  // },
+  // {
+  //   name: "Has Offers",
+  // },
 ];
 
 const fileTypes = [
@@ -48,31 +55,59 @@ const sortOrderRadios = [
 
 //
 const TabFilters = () => {
+  const dispatch = useDispatch();
+  const { rangePrices, saleTypes } = useSelector(
+    (state: RootState) => state.nft
+  );
+  console.log(saleTypes);
+
   const [isOpenMoreFilter, setisOpenMoreFilter] = useState(false);
   //
   const [isVerifiedCreator, setIsVerifiedCreator] = useState(true);
-  const [rangePrices, setRangePrices] = useState([0.01, 10]);
+  // const [rangePrices, setRangePrices] = useState([0.01, 10]);
   const [fileTypesState, setfileTypesState] = useState<string[]>([]);
-  const [saleTypeStates, setSaleTypeStates] = useState<string[]>([]);
+
   const [sortOrderStates, setSortOrderStates] = useState<string>("");
 
   //
   const closeModalMoreFilter = () => setisOpenMoreFilter(false);
   const openModalMoreFilter = () => setisOpenMoreFilter(true);
-
+  const handleSliderChange = (_input: number | number[]) => {
+    const newRangePrices = _input as [number, number];
+    dispatch(setRangePrices(newRangePrices));
+  };
   //
   const handleChangeFileTypes = (checked: boolean, name: string) => {
     checked
       ? setfileTypesState([...fileTypesState, name])
       : setfileTypesState(fileTypesState.filter((i) => i !== name));
   };
-
+  //for multiple sale filter
+  // const handleChangeSaleType = (checked: boolean, name: string) => {
+  //   const updatedSaleTypes = checked
+  //     ? [...saleTypes, name]
+  //     : saleTypes.filter((i) => i !== name);
+  //   dispatch(setSaleTypes(updatedSaleTypes));
+  // };
+  //for single sales filter at a time
   const handleChangeSaleType = (checked: boolean, name: string) => {
-    checked
-      ? setSaleTypeStates([...saleTypeStates, name])
-      : setSaleTypeStates(saleTypeStates.filter((i) => i !== name));
+    let updatedSaleTypes: string[] = [];
+
+    if (checked) {
+      // If the checkbox is checked, set the array to contain only the new sale type name
+      updatedSaleTypes = [name];
+    } else {
+      // If the checkbox is unchecked, clear the array
+      updatedSaleTypes = [];
+    }
+
+    // Dispatch the updated sale types array
+    dispatch(setSaleTypes(updatedSaleTypes));
   };
 
+  const handleClearSaleType = () => {
+    dispatch(setSaleTypes([]));
+  };
   //
 
   // OK
@@ -109,7 +144,7 @@ const TabFilters = () => {
                    : "border-neutral-300 dark:border-neutral-700"
                }
                 ${
-                  !!saleTypeStates.length
+                  !!saleTypes.length
                     ? "!border-primary-500 bg-primary-50 text-primary-900"
                     : "border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 dark:hover:border-neutral-500"
                 }
@@ -140,12 +175,10 @@ const TabFilters = () => {
               </svg>
 
               <span className="ml-2">Sale Types</span>
-              {!saleTypeStates.length ? (
+              {!saleTypes.length ? (
                 <ChevronDownIcon className="w-4 h-4 ml-3" />
               ) : (
-                <span onClick={() => setSaleTypeStates([])}>
-                  {renderXClear()}
-                </span>
+                <span onClick={handleClearSaleType}>{renderXClear()}</span>
               )}
             </Popover.Button>
             <Transition
@@ -160,21 +193,21 @@ const TabFilters = () => {
               <Popover.Panel className="absolute z-40 w-screen max-w-sm px-4 mt-3 left-0 sm:px-0 lg:max-w-md">
                 <div className="overflow-hidden rounded-2xl shadow-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700">
                   <div className="relative flex flex-col px-5 py-6 space-y-5">
-                    <Checkbox
+                    {/* <Checkbox
                       name="All Sale Types"
                       label="All Sale Types"
-                      defaultChecked={saleTypeStates.includes("All Sale Types")}
+                      defaultChecked={saleTypes.includes("All Sale Types")}
                       onChange={(checked) =>
                         handleChangeSaleType(checked, "All Sale Types")
                       }
-                    />
+                    /> */}
                     <div className="w-full border-b border-neutral-200 dark:border-neutral-700" />
                     {typeOfSales.map((item) => (
                       <div key={item.name} className="">
                         <Checkbox
                           name={item.name}
                           label={item.name}
-                          defaultChecked={saleTypeStates.includes(item.name)}
+                          defaultChecked={saleTypes.includes(item.name)}
                           onChange={(checked) =>
                             handleChangeSaleType(checked, item.name)
                           }
@@ -186,14 +219,17 @@ const TabFilters = () => {
                     <ButtonThird
                       onClick={() => {
                         close();
-                        setSaleTypeStates([]);
+                        handleClearSaleType;
                       }}
                       sizeClass="px-4 py-2 sm:px-5"
                     >
                       Clear
                     </ButtonThird>
                     <ButtonPrimary
-                      onClick={close}
+                      onClick={() => {
+                        dispatch(applyChanges());
+                        close();
+                      }}
                       sizeClass="px-4 py-2 sm:px-5"
                     >
                       Apply
@@ -314,7 +350,10 @@ const TabFilters = () => {
                       Clear
                     </ButtonThird>
                     <ButtonPrimary
-                      onClick={close}
+                      onClick={() => {
+                        dispatch(applyChanges());
+                        close();
+                      }}
                       sizeClass="px-4 py-2 sm:px-5"
                     >
                       Apply
@@ -434,7 +473,10 @@ const TabFilters = () => {
                       Clear
                     </ButtonThird>
                     <ButtonPrimary
-                      onClick={close}
+                      onClick={() => {
+                        dispatch(applyChanges());
+                        close();
+                      }}
                       sizeClass="px-4 py-2 sm:px-5"
                     >
                       Apply
@@ -513,14 +555,15 @@ const TabFilters = () => {
                       <span className="font-medium">Price range</span>
                       <Slider
                         range
-                        min={0.01}
+                        min={0.00001}
                         max={10}
-                        step={0.01}
+                        step={0.00009}
                         defaultValue={[rangePrices[0], rangePrices[1]]}
                         allowCross={false}
-                        onChange={(_input: number | number[]) =>
-                          setRangePrices(_input as number[])
-                        }
+                        onChange={handleSliderChange}
+                        // onChange={(_input: number | number[]) =>
+                        //   setRangePrices(_input as number[])
+                        // }
                       />
                     </div>
 
@@ -572,7 +615,8 @@ const TabFilters = () => {
                   <div className="p-5 bg-neutral-50 dark:bg-neutral-900 dark:border-t dark:border-neutral-800 flex items-center justify-between">
                     <ButtonThird
                       onClick={() => {
-                        setRangePrices([0.01, 10]);
+                        dispatch(setRangePrices([0.01, 10]));
+                        // setRangePrices([0.01, 10]);
                         close();
                       }}
                       sizeClass="px-4 py-2 sm:px-5"
@@ -580,7 +624,10 @@ const TabFilters = () => {
                       Clear
                     </ButtonThird>
                     <ButtonPrimary
-                      onClick={close}
+                      onClick={() => {
+                        dispatch(applyChanges());
+                        close();
+                      }}
                       sizeClass="px-4 py-2 sm:px-5"
                     >
                       Apply
@@ -655,7 +702,25 @@ const TabFilters = () => {
     return (
       <div className="grid grid-cols-2 gap-8">
         <div className="flex flex-col space-y-5">
-          {list1.map((item) => (
+          {/* <Checkbox
+            name="All Sale Types"
+            label="All Sale Types"
+            defaultChecked={saleTypes.includes("All Sale Types")}
+            onChange={(checked) =>
+              handleChangeSaleType(checked, "All Sale Types")
+            }
+          /> */}
+          {typeOfSales?.map((item) => (
+            <div key={item.name} className="">
+              <Checkbox
+                name={item.name}
+                label={item.name}
+                defaultChecked={saleTypes.includes(item.name)}
+                onChange={(checked) => handleChangeSaleType(checked, item.name)}
+              />
+            </div>
+          ))}
+          {/* {list1.map((item) => (
             <Checkbox
               key={item.name}
               name={item.name}
@@ -663,9 +728,9 @@ const TabFilters = () => {
               label={item.name}
               defaultChecked={!!item.defaultChecked}
             />
-          ))}
+          ))} */}
         </div>
-        <div className="flex flex-col space-y-5">
+        {/* <div className="flex flex-col space-y-5">
           {list2.map((item) => (
             <Checkbox
               key={item.name}
@@ -675,7 +740,7 @@ const TabFilters = () => {
               defaultChecked={!!item.defaultChecked}
             />
           ))}
-        </div>
+        </div> */}
       </div>
     );
   };
@@ -689,7 +754,7 @@ const TabFilters = () => {
           onClick={openModalMoreFilter}
         >
           <span>
-            <span className="hidden sm:inline">NFTs</span> filters (3)
+            <span className="hidden sm:inline">NFTs</span> filters (2)
           </span>
           {renderXClear()}
         </div>
@@ -754,12 +819,12 @@ const TabFilters = () => {
                       </div>
                       {/* --------- */}
                       {/* ---- */}
-                      <div className="py-7">
+                      {/* <div className="py-7">
                         <h3 className="text-xl font-medium">File Types</h3>
                         <div className="mt-6 relative ">
                           {renderMoreFilterItem(fileTypes)}
                         </div>
-                      </div>
+                      </div> */}
 
                       {/* --------- */}
                       {/* ---- */}
@@ -775,9 +840,10 @@ const TabFilters = () => {
                                 max={2000}
                                 defaultValue={[0, 1000]}
                                 allowCross={false}
-                                onChange={(_input: number | number[]) =>
-                                  setRangePrices(_input as number[])
-                                }
+                                onChange={handleSliderChange}
+                                // onChange={(_input: number | number[]) =>
+                                //   setRangePrices(_input as number[])
+                                // }
                               />
                             </div>
 
@@ -835,7 +901,7 @@ const TabFilters = () => {
 
                       {/* --------- */}
                       {/* ---- */}
-                      <div className="py-7">
+                      {/* <div className="py-7">
                         <h3 className="text-xl font-medium">Sort Order</h3>
                         <div className="mt-6 relative ">
                           <div className="relative flex flex-col space-y-5">
@@ -851,15 +917,15 @@ const TabFilters = () => {
                             ))}
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
 
                   <div className="p-6 flex-shrink-0 bg-neutral-50 dark:bg-neutral-900 dark:border-t dark:border-neutral-800 flex items-center justify-between">
                     <ButtonThird
                       onClick={() => {
-                        setRangePrices([0.01, 10]);
-                        setSaleTypeStates([]);
+                        dispatch(setRangePrices([0.01, 10]));
+                        handleClearSaleType;
                         setfileTypesState([]);
                         setSortOrderStates("");
                         closeModalMoreFilter();
@@ -869,7 +935,10 @@ const TabFilters = () => {
                       Clear
                     </ButtonThird>
                     <ButtonPrimary
-                      onClick={closeModalMoreFilter}
+                      onClick={() => {
+                        dispatch(applyChanges());
+                        closeModalMoreFilter();
+                      }}
                       sizeClass="px-4 py-2 sm:px-5"
                     >
                       Apply
@@ -890,15 +959,15 @@ const TabFilters = () => {
       <div className="hidden lg:flex space-x-4">
         {renderTabsPriceRage()}
         {renderTabsTypeOfSales()}
-        {renderTabsFileTypes()}
-        {renderTabsSortOrder()}
-        {renderTabVerifiedCreator()}
+        {/* {renderTabsFileTypes()} */}
+        {/* {renderTabsSortOrder()} */}
+        {/* {renderTabVerifiedCreator()} */}
       </div>
 
       {/* FOR RESPONSIVE MOBILE */}
       <div className="flex overflow-x-auto lg:hidden space-x-4">
         {renderTabMobileFilter()}
-        {renderTabVerifiedCreator()}
+        {/* {renderTabVerifiedCreator()} */}
       </div>
     </div>
   );
