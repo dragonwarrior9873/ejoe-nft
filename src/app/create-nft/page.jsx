@@ -399,7 +399,7 @@ const PageUploadItem = ({}) => {
                 <Input
                   name="royalties"
                   type="number"
-                  placeholder="20%"
+                  placeholder="0%"
                   value={formik.values.royalties}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -415,8 +415,8 @@ const PageUploadItem = ({}) => {
               <FormItem label="Price ($)">
                 <Input
                   name="price"
-                  type="text"
-                  placeholder="2.0"
+                  type="number"
+                  placeholder="0"
                   value={formik.values.price}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -431,7 +431,6 @@ const PageUploadItem = ({}) => {
                 <Input
                   name="property"
                   type="text"
-                  placeholder="Property"
                   value={formik.values.property}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -452,6 +451,7 @@ const PageUploadItem = ({}) => {
                   }
                   required
                 >
+                  <option selected disabled>Select a category</option>
                   <option value="Arts">Arts</option>
                   <option value="Entertainment">Entertainment</option>
                   <option value="Music">Music</option>

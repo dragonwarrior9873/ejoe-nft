@@ -239,7 +239,6 @@ const AccountPage = ({}) => {
                     name="userName"
                     value={profile.userName}
                     onChange={handleChange}
-                    defaultValue="Eden Tuan"
                   />
                 </div>
 
@@ -252,7 +251,6 @@ const AccountPage = ({}) => {
                     </span>
                     <Input
                       className="!rounded-l-none"
-                      placeholder="example@email.com"
                       name="emailAddress"
                       value={profile.emailAddress}
                       onChange={handleChange}
@@ -269,7 +267,6 @@ const AccountPage = ({}) => {
                     name="userBio"
                     value={profile.userBio}
                     onChange={handleChange}
-                    placeholder="Something about yourself in a few words."
                   />
                 </div>
 
@@ -287,7 +284,6 @@ const AccountPage = ({}) => {
                         name="website"
                         value={profile.website}
                         onChange={handleChange}
-                        placeholder="yourwebsite.com"
                       />
                     </div>
                   </div>
@@ -309,7 +305,6 @@ const AccountPage = ({}) => {
                       </span>
                       <Input
                         className="!rounded-l-none"
-                        placeholder="yourtelegram"
                         sizeClass="h-11 px-4 pl-2 pr-3"
                         name="socialLinks.telegram"
                         value={profile.socialLinks?.telegram}
@@ -340,7 +335,6 @@ const AccountPage = ({}) => {
                       </span>
                       <Input
                         className="!rounded-l-none"
-                        placeholder="yourfacebook"
                         sizeClass="h-11 px-4 pl-2 pr-3"
                         name="socialLinks.facebook"
                         value={profile.socialLinks?.facebook}
@@ -367,7 +361,6 @@ const AccountPage = ({}) => {
                       </span>
                       <Input
                         className="!rounded-l-none"
-                        placeholder="yourtwitter"
                         sizeClass="h-11 px-4 pl-2 pr-3"
                         name="socialLinks.x"
                         value={profile.socialLinks?.x}
@@ -403,7 +396,6 @@ const AccountPage = ({}) => {
                       </span>
                       <Input
                         className="!rounded-l-none"
-                        placeholder="yourinstagram"
                         sizeClass="h-11 px-4 pl-2 pr-3"
                         name="socialLinks.instagram"
                         value={profile.socialLinks?.instagram}
@@ -423,30 +415,6 @@ const AccountPage = ({}) => {
                       value={AccountState?.account}
                       disabled
                     />
-
-                    <span className="absolute right-2.5 cursor-pointer top-1/2 -translate-y-1/2 ">
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                      >
-                        <path
-                          d="M21.6602 10.44L20.6802 14.62C19.8402 18.23 18.1802 19.69 15.0602 19.39C14.5602 19.35 14.0202 19.26 13.4402 19.12L11.7602 18.72C7.59018 17.73 6.30018 15.67 7.28018 11.49L8.26018 7.30001C8.46018 6.45001 8.70018 5.71001 9.00018 5.10001C10.1702 2.68001 12.1602 2.03001 15.5002 2.82001L17.1702 3.21001C21.3602 4.19001 22.6402 6.26001 21.6602 10.44Z"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M15.0603 19.3901C14.4403 19.8101 13.6603 20.1601 12.7103 20.4701L11.1303 20.9901C7.16034 22.2701 5.07034 21.2001 3.78034 17.2301L2.50034 13.2801C1.22034 9.3101 2.28034 7.2101 6.25034 5.9301L7.83034 5.4101C8.24034 5.2801 8.63034 5.1701 9.00034 5.1001C8.70034 5.7101 8.46034 6.4501 8.26034 7.3001L7.28034 11.4901C6.30034 15.6701 7.59034 17.7301 11.7603 18.7201L13.4403 19.1201C14.0203 19.2601 14.5603 19.3501 15.0603 19.3901Z"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </span>
                   </div>
                 </div>
 

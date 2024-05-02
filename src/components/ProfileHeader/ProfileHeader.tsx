@@ -1,17 +1,13 @@
 "use client";
 
 import React from "react";
-import authorBanner from "@/images/nfts/authorBanner.png";
 import NcImage from "@/shared/NcImage/NcImage";
-import { nftsImgs } from "@/contains/fakeData";
 import VerifyIcon from "@/components/VerifyIcon";
 import SocialsList from "@/shared/SocialsList/SocialsList";
-import NftMoreDropdown from "@/components/NftMoreDropdown";
-import ButtonDropDownShare from "@/components/ButtonDropDownShare";
-import FollowButton from "@/components/FollowButton";
 import Loader from "@/shared/Loader/Loader";
-import { SuccessToast } from "../Toast/Success";
-import { ErrorToast } from "../Toast/Error";
+import {SuccessToast} from "../Toast/Success";
+import {ErrorToast} from "../Toast/Error";
+
 export interface SocialType {
   id: string;
   name: string;

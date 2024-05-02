@@ -159,7 +159,6 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
         EthAccount?.account
       );
 
-      console.log(response);
       setCreators(response);
       setLoading(false);
     } catch (error) {
@@ -202,7 +201,7 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
             if (!item) {
               return (
                 <div className="flex w-full items-center justify-center">
-                  <span>No creator found!!</span>
+                  <span>No creator found</span>
                 </div>
               );
             }
@@ -287,7 +286,7 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
   //           )}
   //         </div>
   //         <div className="mt-16 flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-5">
-  //           <ButtonPrimary href="/upload-item">Become a author</ButtonPrimary>
+  //           <ButtonPrimary href="/create-nft">Become a author</ButtonPrimary>
   //         </div>
   //       </>
   //     )} */}

@@ -23,7 +23,7 @@ const MainNav2: FC<MainNav2Props> = () => {
               <div className="hidden sm:block h-9 border-l border-neutral-300 dark:border-neutral-6000"></div>
               <SwitchDarkMode />
               <ButtonPrimary
-                href={"/upload-item"}
+                href={"/create-nft"}
                 sizeClass="px-4 py-2 sm:px-5"
               >
                 Create
@@ -37,7 +37,7 @@ const MainNav2: FC<MainNav2Props> = () => {
             </div>
             <div className="flex items-center space-x-1 xl:hidden">
               <ButtonPrimary
-                href={"/upload-item"}
+                href={"/create-nft"}
                 sizeClass="px-4 py-2 sm:px-5"
               >
                 Create
