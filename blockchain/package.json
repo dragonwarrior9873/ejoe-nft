@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "hardhat run scripts/deploy.js"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +16,7 @@
   },
   "dependencies": {
     "@nomicfoundation/hardhat-network-helpers": "^1.0.9",
-    "@openzeppelin/contracts": "^5.0.0",
+    "@openzeppelin/contracts": "^5.0.1",
     "formik": "^2.4.5",
     "yup": "^1.4.0"
   }
