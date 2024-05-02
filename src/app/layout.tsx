@@ -14,8 +14,8 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "Cicryp.",
-  description: "Buy/Sell NFT on Cicryp. NFT Marketplace",
+  title: "Ejoe NFT Marketplace",
+  description: "Buy/Sell NFT on Ejoe NFT Marketplace",
 };
 
 export default function RootLayout({
