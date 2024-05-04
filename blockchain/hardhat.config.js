@@ -18,26 +18,32 @@ module.exports = {
   // paths: {
   //   artifacts: "./artifacts",
   // },
+  defaultNetwork: "op_sepolia",
   networks: {
     // Define your networks here, such as "sepolia", "goerli", "mainnet", etc.
     // Example:
-    sepolia: {
-      url: "https://eth-sepolia.g.alchemy.com/v2/_3PL2elsK7goLC6sStBMJc4-izywGxSk",
+    op_sepolia: {
+      url: "https://sepolia.optimism.io",
       accounts: [
-        "0x91b3b19cc0861dfb0b1edff11ff24b53f272b0e35dff8433b95bb2621591bd2e",
+        "0xe561a8dab4282f12b078e8cb3531cc3776c4fb321fd266de86e67a6a33959e30",
       ],
     },
   },
-  // networks: {
-  //   localhost: {
-  //     url: "http://127.0.0.1:8545",
-  //   },
-  //   hardhat: {
-  //     forking: {
-  //       url: "https://eth-sepolia.g.alchemy.com/v2/_3PL2elsK7goLC6sStBMJc4-izywGxSk",
-  //     },
-  //   },
-  // },
+  etherscan: {
+    apiKey: {
+      op_sepolia: "7W4EKPGF42PE7P5FT1PP4YHG51NIW3P8KT",
+    },
+    customChains: [
+      {
+        network: "op_sepolia",
+        chainId: 11155420,
+        urls: {
+          apiURL: "https://api-sepolia-optimistic.etherscan.io/api",
+          browserURL: "https://sepolia-optimism.etherscan.io/"
+        }
+      },
+    ]
+  },
   mocha: {
     timeout: 40000,
   },
