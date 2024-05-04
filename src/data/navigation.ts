@@ -41,23 +41,18 @@ const otherPageChildMenus: NavItemType[] = [
   // },
   {
     id: ncNanoId(),
-    href: "/account",
-    name: "Account settings",
-  },
-  {
-    id: ncNanoId(),
-    href: "/upload-item",
-    name: "Upload Item",
+    href: "/create-nft",
+    name: "Create NFT",
   },
   // {
   //   id: ncNanoId(),
-  //   href: "/upload-item",
+  //   href: "/create-nft",
   //   name: "Upload Item",
   //   type: "dropdown",
   //   children: [
   //     {
   //       id: ncNanoId(),
-  //       href: "/upload-item",
+  //       href: "/create-nft",
   //       name: "Upload Item",
   //     },
   //     {
@@ -135,7 +130,7 @@ export const NAVIGATION_DEMO_2: NavItemType[] = [
   },
   // {
   //   id: ncNanoId(),
-  //   href: "/upload-item",
+  //   href: "/create-nft",
   //   name: "Help center",
   // },
 ];

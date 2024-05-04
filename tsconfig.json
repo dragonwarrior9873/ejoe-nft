@@ -28,7 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/upload-item/page.jsx",
+    "src/app/create-nft/page.jsx",
     "src/hooks/useContract.ts",
     "src/hooks/useFetchAllNFTs.js",
     "model/userModel.js",
